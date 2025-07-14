@@ -20,13 +20,12 @@ const ChatContainer = () => {
   const messageEndRef = useRef(null);
 
   useEffect(() => {
-    if (selectedUser?._id) {
-      getMessages(selectedUser._id);
-      subscribeToMessages();
-    }
+    getMessages(selectedUser._id);
+
+    subscribeToMessages();
 
     return () => unsubscribeFromMessages();
-  }, [selectedUser?._id, getMessages, subscribeToMessages, unsubscribeFromMessages]);
+  }, [selectedUser._id, getMessages, subscribeToMessages, unsubscribeFromMessages]);
 
   useEffect(() => {
     if (messageEndRef.current && messages) {
@@ -36,7 +35,7 @@ const ChatContainer = () => {
 
   if (isMessagesLoading) {
     return (
-      <div className="flex flex-col h-full w-full">
+      <div className="flex-1 flex flex-col h-full w-full">
         <ChatHeader />
         <MessageSkeleton />
         <MessageInput />
@@ -45,7 +44,7 @@ const ChatContainer = () => {
   }
 
   return (
-    <div className="flex flex-col h-full w-full">
+    <div className="flex-1 flex flex-col overflow-auto">
       <ChatHeader />
 
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
@@ -55,7 +54,7 @@ const ChatContainer = () => {
             className={`chat ${message.senderId === authUser._id ? "chat-end" : "chat-start"}`}
             ref={messageEndRef}
           >
-            <div className="chat-image avatar">
+            <div className=" chat-image avatar">
               <div className="size-10 rounded-full border">
                 <img
                   src={
@@ -84,7 +83,6 @@ const ChatContainer = () => {
             </div>
           </div>
         ))}
-        <div ref={messageEndRef} /> {/* Scroll target */}
       </div>
 
       <MessageInput />
